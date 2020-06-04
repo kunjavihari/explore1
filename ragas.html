@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Posts</title> 
+{% endblock %}
+
+{% block body %}
+<br>
+<div>
+    <h1 style="display:inline">All Posts</h1>
+    <a style="display:inline" class="btn btn-success float-right" href="/posts/new" >+ New Post</a>
+</div>
+    <hr>
+    
+    {% for raga in posts %}
+        <h2>{{ raga.name }}</h2>
+        {% if raga.thaat %}
+            <small> thaat {{ raga.thaat }} </small>
+        {% else %}
+            <small> thaat unknown</small>
+        {% endif %}
+        <br>
+        <br>
+        <p style="white-space:pre-wrap">{{ raga.preferredtime }}</p>
+        <br>
+        <a class="btn btn-danger" href='/posts/delete/{{raga.id}}'>Delete</a>
+        <a class="btn btn-primary" href='/posts/edit/{{raga.id}}'>Edit</a>
+        <br>
+        <hr>
+        <br>
+    {% endfor%}
+
+{% endblock %}

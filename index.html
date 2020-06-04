@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>something</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+        <script src="http://d3js.org/d3.v4.js"></script>
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/bulma.css') }}">
+        <script type="text/javascript" src="{{ url_for('static',filename='js/render.js')}}"></script>
+        <script type="text/javascript" src="{{ url_for('static',filename='js/table.js')}}"></script>
+        <script type="text/javascript" src="{{ url_for('static',filename='js/paginator.js')}}"></script>
+        <style type="text/css">
+        .box div, .box ul {
+    float: right;
+    .color_page {
+    background: #ccf;
+}
+}
+.node { stroke: #222; stroke-width: 1px; }
+    .node.actor { fill: #888; }
+    .node.movie { fill: #BBB; }
+    .link { stroke: #ADADAD; stroke-opacity: .6; stroke-width: 1px; }
+        </style>
+
+            
+
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <nav class="navbar has-shadow">
+            <div class="container">
+              <div class="navbar-brand"><a class="navbar-item" href="../">
+                <a>K</a>
+              <!--<img src="http://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox"/></a>-->
+            </div>
+          </div>
+        </nav>
+        <section class="hero is-primary">
+            <div class="hero-body is-centered">
+              <div class="container is-fluid has-text-centered ">
+                <h1 class="title is-centered">
+                  Ragas
+                </h1>
+                <h2 class="subtitle">
+                  Explore
+                </h2>
+              </div>
+            </div>
+          </section>
+        <section class="section">
+        <div class="container cards-container is-fluid">
+            <div class="columns">
+                <div class="column is-one-fifth">
+                    <aside class="menu is-hidden-mobile">
+                        <p class="menu-label">
+                            General
+                        </p>
+                        <ul class="menu-list">
+                            <li><a class="is-active">Ragas</a></li>
+                            <li><a onclick="paginate()">Musicians</a></li>
+                            <li><a>Instruments</a></li>
+                        </ul>
+                        <p class="menu-label">
+                            Administration
+                        </p>
+                        <ul class="menu-list">
+                            <li><a>Team Settings</a></li>
+                        </ul>
+                    </aside>
+                </div>
+                <!--
+                <div class="column is-one-fifth">
+                    <div class="container" id="listmain">
+                        <div class="table-container" id="table_box_native">
+
+                        </div>
+                        <div id="index_native" class="box"></div>
+                    </div>
+                </div>-->
+                <div class="column is-four-fifth">
+                    <div class="container" id="graph">
+                    </div>
+                </div>
+            </div>
+<!--
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                        Component
+                        </p>
+                        <a href="#" class="card-header-icon" aria-label="more options">
+                        <span class="icon">
+                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                        </a>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                        <a>Test</a>
+                        </div>
+                        </div>    
+                    </div>
+                </div>
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                        Component
+                        </p>
+                        <a href="#" class="card-header-icon" aria-label="more options">
+                        <span class="icon">
+                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                        </a>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                        <a>Test</a>
+                        </div>
+                        </div>    
+                    </div>
+                </div>                
+            </div> -->
+        </section>    
+        <footer>
+            <div class="box cta">
+              <div class="columns is-mobile is-centered">
+                <div class="field is-grouped is-grouped-multiline">
+                  <div class="control">
+                    <div class="tags has-addons"><a class="tag is-link" >Ah</a><span class="tag is-light">Kunju Kashalikar</span></div>
+                  </div>
+                  <div class="control">
+                    <div class="tags has-addons"><a class="tag is-link">Some text</a><span class="tag is-light">DataKash <i class="fa fa-github"></i></span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </footer>
+        <script src="" async defer></script>
+        <script type="text/javascript">
+
+            
+            var svg = d3.select("#graph").append("svg")
+               //.attr("viewBox", [10, 10, 600, 600])
+                .attr("width", "100%").attr("height", 600)
+                .style("font", "10px sans-serif")
+                .attr("pointer-events", "all")
+                .append("g")
+                .attr("transform","translate(50,50)")
+                .call(d3.zoom().on("zoom", function () {
+                    svg.attr("transform", d3.event.transform)
+                }));
+            
+            var tree = d3.layout.tree().size([600,600])
+                
+
+
+                d3.json("/ragalist1", function(error, graph) {
+                    if (error) return;
+
+                    var nodes = tree.nodes(graph);
+                    console.log(nodes)
+                    var links = tree.links(nodes);  
+                    console.log(links)
+//                    force.nodes(nodes).links(graph.links).start();
+                    var node = svg.selectAll(".node")
+                            .data(nodes).enter()
+                            .append("g")
+                                .attr("class", "node")
+                                .attr("cursor", "pointer")
+                                .attr("pointer-events", "all")                                
+                                .attr("transform",function(d){return "translate("+d.y +","+d.x+")";});
+
+                    node.append("circle")
+                        .attr("r",2)
+                        .attr("fill","steelblue")
+                    
+                    var diagonal = d3.svg.diagonal()
+                        .projection(function(d){return[d.y,d.x];});
+
+                    var link = svg.selectAll(".link")
+                            .data(links)
+                            .enter()
+                            .append("path")
+                                .attr("class", "link")
+                                .attr("d",diagonal);
+
+
+
+                    // html title attribute
+                    node.append("text")
+                            
+                            .text(function (d) { 
+                                console.log(d);
+                                if (d.depth < 2)
+                                    return d.thaat; 
+                                else
+                                    return d.raga;}
+                                        )
+                            .attr("stroke-linejoin", "round")
+                            .attr("stroke-width", 1)
+                            .attr("dy", "0.31em")
+                            .attr("x", d => d._children ? -6 : 6)
+                            .attr("text-anchor", d => d._children ? "end" : "start");
+
+
+                    // force feed algo ticks
+                    //force.on("tick", function() {
+                    //    link.attr("x1", function(d) { return d.source.x; })
+                    //            .attr("y1", function(d) { return d.source.y; })
+                    //            .attr("x2", function(d) { return d.target.x; })
+                    //            .attr("y2", function(d) { return d.target.y; });
+
+                    //    node.attr("cx", function(d) { return d.x; })
+                    //            .attr("cy", function(d) { return d.y; });
+                    //});
+                });
+        
+        </script>
+
+        <script type="text/javascript" async="false">
+            function paginate(){
+                paginator({
+                table: document.getElementById("table_box_native").getElementsByTagName("table")[0],
+                box: document.getElementById("index_native")
+                });
+            }
+            window.addEventListener("load", function () {
+                async:false,
+                create_sample_table(document.getElementById("table_box_native"));
+                console.log("finished table")
+                //window.alert(document.getElementById("table_box_native").getElementsByTagName("table")[0])
+                //window.alert(document.getElementById("index_native"))
+                if (document.getElementById("table1") ==null){
+                    console.log("Hello");
+                   setTimeout(() => {paginator({
+                table: document.getElementById("table_box_native").getElementsByTagName("table")[0],
+                box: document.getElementById("index_native")
+                });   }, 1000);
+                    document.getElementById("table_box_native").getElementsByTagName("table")[0]
+                }
+                console.log(document.getElementById("table1"));
+                paginator({
+                table: document.getElementById("table_box_native").getElementsByTagName("table")[0],
+                box: document.getElementById("index_native")
+                });
+            }, false);
+                        </script>
+    </body>
+</html>
